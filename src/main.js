@@ -9,7 +9,6 @@ const routes = [
     { path: '/dupa', name: 'Dupa', component: DupaComponent }
 ]
 
-console.log(1)
 
 const router = createRouter({
     history: createWebHistory(),
@@ -17,5 +16,3 @@ const router = createRouter({
 })
 
 createApp(App).use(router).mount('#app')
-
-export default router

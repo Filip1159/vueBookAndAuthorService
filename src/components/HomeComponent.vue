@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <book-list :books="books" />
+    <book-list :books="books" :remove-book="removeBook" />
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import BookList from './BookListComponent.vue'
 
 export default {
   name: 'HomeComponent',
-  data() {
+  data () {
     return {
       msg: 'Welcome to the Library',
       books: [
@@ -20,9 +20,27 @@ export default {
       ]
     }
   },
-  components: {
-    'book-list': BookList
-  }
+  mounted () {
+    fetch(`http://localhost:9000/book`)
+        .then(r => r.json())
+        .then(json => {
+          this.books = json
+        })
+        .catch(e => console.warn(e))
+  },
+
+  methods: {
+    removeBook: function (id) {
+      fetch(`http://localhost:9000/book/${id}`, {method: 'delete'})
+          .then(r => {
+            if (r.status === 200) {
+              this.books = this.books.filter(b => b.id !== id)
+            }
+          })
+    }
+  },
+
+  components: { BookList }
 }
 </script>
 

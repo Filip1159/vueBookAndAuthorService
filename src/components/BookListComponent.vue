@@ -6,7 +6,7 @@
       <td>Author</td>
     </thead>
     <tbody>
-      <book v-for="book in books" :key="book.id" :book="book" />
+      <book v-for="book in books" :removeBook="removeBook" :key="book.id" :book="book" />
     </tbody>
   </table>
 </template>
@@ -16,7 +16,7 @@ import Book from './BookComponent'
 
 export default {
   name: 'BookListComponent',
-  props: ['books'],
+  props: ['books', 'removeBook'],
   components: {
     book: Book
   }

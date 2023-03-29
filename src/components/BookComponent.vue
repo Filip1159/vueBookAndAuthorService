@@ -2,14 +2,15 @@
   <tr class="book-row">
     <td class="title">{{book.title}}</td>
     <td class="pages">{{book.pages}}</td>
-    <td class="author">{{book.author.name}}</td>
+    <td class="author">AA</td>
+    <td><button @click="removeBook(book.id)">X</button></td>
   </tr>
 </template>
 
 <script>
 export default {
   name: 'BookComponent',
-  props: ['book']
+  props: ['book', 'removeBook']
 }
 </script>
 
