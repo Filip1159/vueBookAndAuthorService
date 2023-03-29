@@ -1,5 +1,10 @@
 <template>
-  <div class="bookListSpan">Book list</div>
+  <div class="heading">
+    <div class="bookListSpan">Book list</div>
+    <router-link :to="{ name: 'CreateBook' }">
+      <div class="newBookButton">Add new book</div>
+    </router-link>
+  </div>
   <table class="bookListTable">
     <thead>
       <tr>
@@ -58,4 +63,28 @@ th {
 .actionTh {
   width: 100px;
 }
+
+.heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.newBookButton {
+  border: 2px solid darkslategray;
+  border-radius: 4px;
+  background-color: aquamarine;
+  padding: 5px 15px;
+  width: 120px;
+  text-align: center;
+  cursor: pointer;
+}
+
+a {
+  margin: auto 40px;
+  display: block !important;
+  text-decoration: none !important;
+  color: black !important;
+}
+
 </style>

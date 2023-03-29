@@ -43,7 +43,9 @@ td {
 
 button {
   border: 2px solid darkslategray;
+  border-radius: 4px;
   background-color: aquamarine;
+  cursor: pointer;
 }
 
 .buttonsTd {
