@@ -1,40 +1,83 @@
 <template>
-
-	<div>
-
-		<h1>Vue JS MultiSelect Dropdown Example - ItSolutionStuff.com</h1>
-
+	<form @submit="e => createBook(e)">
+		<div class="inputWrapper">
+			<label for="title">Title:</label>
+			<input type="text" name="title" id="title"/>
+			<input type="text" name="title" id="title" v-model="book.title"/>
+		</div>
+		<div class="inputWrapper">
+			<label for="pages">Pages:</label>
+			<input type="text" name="pages" id="pages"/>
+			<input type="text" name="pages" id="pages" v-model="book.pages"/>
+		</div>
+		<div class="inputWrapper">
+			<label for="authors">Authors:</label>
+			<input type="text" name="authors" id="authors"/>
+		</div>
 		<multiselect
-
+			class="multiselect"
 			v-model="selected"
-
 			:multiple="true"
-
-			:options="options"
-			@select="log"
-		>
-
+			:options="authors"
+			@select="log">
 		</multiselect>
-
-	</div>
-
+		<input type="submit" value="Submit"/>
+	</form>
 </template>
-
 <script>
-
 import Multiselect from 'vue-multiselect'
 
 export default {
+    name: "CreateBookComponent",
 	components: { Multiselect },
-	data () {
-		return {
+    data() {
+        return {
+			book: {},
 			selected: null,
-			options: ['Laravel', 'Laravel 5', 'Vue JS', 'ItSolutionStuff.com', 'HDTuto.com']
+			authors: []
 		}
-	},
-	methods: {
-		log: function () { console.log(this.selected) }
-	}
-
+    },
+    methods: {
+		log: function() {
+			console.log(this.selected)
+		},
+        createBook: function (e) {
+            e.preventDefault()
+            fetch(`http://localhost:9000/book`, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({...this.book, authorIds: []})
+            })
+                .then(r => {
+                    if (r.status === 201) {
+                        this.$router.push('/')
+                    }
+                })
+                .catch(e => console.warn(e))
+        }
+    }
 }
 </script>
+<style scoped>
+
+form {
+	margin: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+}
+
+.inputWrapper {
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+.multiselect {
+	max-width: 400px;
+}
+
+</style>

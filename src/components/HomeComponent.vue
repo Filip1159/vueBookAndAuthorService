@@ -1,45 +1,89 @@
 <template>
-  <book-list :books="books" :remove-book="removeBook" />
+	<div>
+		<div class="heading">
+			<div class="bookListSpan">Book list</div>
+			<router-link :to="{ name: 'CreateBook' }">
+				<div class="newBookButton">Add new book</div>
+			</router-link>
+		</div>
+		<table class="bookListTable">
+			<thead>
+			<tr>
+				<th>Title</th>
+				<th class="pagesTh">Pages</th>
+				<th>Authors</th>
+				<th class="actionTh">Action</th>
+			</tr>
+			</thead>
+			<tbody>
+			<book v-for="book in $store.state.books" :key="book.id" :book="book"/>
+			</tbody>
+		</table>
+	</div>
 </template>
 
 <script>
-import BookList from './BookListComponent.vue'
+import Book from './BookComponent.vue'
 
 export default {
-  name: 'HomeComponent',
-  data () {
-    return {
-      books: [
-        {id: 1, title: 'Book 1', pages: 100, author: {name: 'Author 1'}},
-        {id: 2, title: 'Book 2', pages: 300, author: {name: 'Author 2'}},
-        {id: 3, title: 'Book 3', pages: 200, author: {name: 'Author 3'}}
-      ]
-    }
-  },
-  mounted () {
-    fetch(`http://localhost:9000/book`)
-        .then(r => r.json())
-        .then(json => {
-          this.books = json
-        })
-        .catch(e => console.warn(e))
-  },
-
-  methods: {
-    removeBook: function (id) {
-      fetch(`http://localhost:9000/book/${id}`, {method: 'delete'})
-          .then(r => {
-            if (r.status === 200) {
-              this.books = this.books.filter(b => b.id !== id)
-            }
-          })
-    }
-  },
-
-  components: { BookList }
+    name: 'HomeComponent',
+    components: {Book}
 }
 </script>
 
 <style scoped>
+.bookListSpan {
+    font-size: 28px;
+    margin: 10px 40px;
+}
+
+.bookListTable {
+    margin: 30px auto;
+    min-width: 70%;
+}
+
+thead {
+    background-color: darkgray;
+    font-size: 18px;
+}
+
+tbody {
+    background-color: cadetblue;
+}
+
+th {
+    padding: 2px;
+}
+
+.pagesTh {
+    width: 80px;
+}
+
+.actionTh {
+    width: 100px;
+}
+
+.heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.newBookButton {
+    border: 2px solid darkslategray;
+    border-radius: 4px;
+    background-color: aquamarine;
+    padding: 5px 15px;
+    width: 120px;
+    text-align: center;
+    cursor: pointer;
+}
+
+a {
+    margin: auto 40px;
+    display: block !important;
+    text-decoration: none !important;
+    color: black !important;
+}
 
 </style>

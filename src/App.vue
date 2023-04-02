@@ -10,7 +10,25 @@
 <script>
 export default {
     name: 'App',
-    components: {}
+    components: {},
+	created () {
+		fetch(`http://localhost:9000/book`)
+			.then(r => r.json())
+			.then(json => {
+				console.log("Books")
+				console.log(json)
+				this.$store.dispatch('setBooks', json)
+			})
+			.catch(e => console.warn(e))
+		fetch(`http://localhost:9000/author`)
+			.then(r => r.json())
+			.then(json => {
+				console.log("Authors")
+				console.log(json)
+				this.$store.dispatch('setAuthors', json)
+			})
+			.catch(e => console.warn(e))
+	}
 }
 </script>
 
