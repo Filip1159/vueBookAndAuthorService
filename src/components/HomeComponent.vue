@@ -9,25 +9,61 @@
 		<table class="bookListTable">
 			<thead>
 			<tr>
-				<th>Title</th>
+				<th class="titleTh">Title</th>
 				<th class="pagesTh">Pages</th>
-				<th>Authors</th>
+				<th class="authorsTh">Authors</th>
 				<th class="actionTh">Action</th>
 			</tr>
 			</thead>
 			<tbody>
-			<book v-for="book in $store.state.books" :key="book.id" :book="book"/>
+			<book v-for="book in booksPage" :key="book.id" :book="book"/>
 			</tbody>
 		</table>
+		<div class="navigation">
+			<button class="navigationButton" :class="{active: canSwitchPreviousPage()}" @click="previousPage">&lt;</button>
+			<span class="pageSpan">{{ pageNumber }}</span>
+			<button class="navigationButton" :class="{active: canSwitchNextPage()}" @click="nextPage">&gt;</button>
+		</div>
 	</div>
 </template>
 
 <script>
 import Book from './BookComponent.vue'
 
+const paginate = (items, page, perPage = 5) => items.slice(perPage * (page - 1), perPage * page);
+
 export default {
     name: 'HomeComponent',
-    components: {Book}
+    components: {Book},
+	data() {
+		return {
+			pageNumber: 1,
+		}
+	},
+
+	computed: {
+		booksPage() {
+			return paginate(this.$store.state.books, this.pageNumber)
+		},
+		booksCount() {
+			return this.$store.state.books.length
+		}
+	},
+
+	methods: {
+		canSwitchNextPage() {
+			return this.pageNumber !== Math.ceil(this.booksCount / 5)
+		},
+		canSwitchPreviousPage() {
+			return this.pageNumber !== 1
+		},
+		nextPage() {
+			if (this.canSwitchNextPage()) this.pageNumber++
+		},
+		previousPage() {
+			if (this.canSwitchPreviousPage()) this.pageNumber--
+		}
+	}
 }
 </script>
 
@@ -54,8 +90,16 @@ th {
     padding: 6px 25px;
 }
 
+.titleTh {
+	width: 30%;
+}
+
 .pagesTh {
     width: 80px;
+}
+
+.authorsTh {
+	width: 35%;
 }
 
 .actionTh {
@@ -78,6 +122,30 @@ a {
     display: block !important;
     text-decoration: none !important;
     color: black !important;
+}
+
+.navigation {
+	position: absolute;
+	bottom: 100px;
+	left: 40%;
+	right: 40%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.pageSpan {
+	font-size: 20px;
+	font-weight: 700;
+	margin: 0 20px;
+}
+
+.navigationButton {
+	opacity: 0.3;
+}
+
+.navigationButton.active {
+	opacity: 1;
 }
 
 </style>

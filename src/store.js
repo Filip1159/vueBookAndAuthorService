@@ -19,6 +19,7 @@ export const store = new Vuex.Store({
     mutations: {
         SET_BOOKS(state, books) {
             state.books = books
+            state.books.sort(function (b1, b2) { return b2.id - b1.id })
         },
         SET_AUTHORS(state, authors) {
             state.authors = authors
@@ -37,6 +38,7 @@ export const store = new Vuex.Store({
         },
         CREATE_BOOK(state, bookToCreate) {
             state.books.push(bookToCreate)
+            state.books.sort(function (b1, b2) { return b2.id - b1.id })
         }
     },
     actions: {
