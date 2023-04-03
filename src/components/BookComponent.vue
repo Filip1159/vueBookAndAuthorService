@@ -2,7 +2,9 @@
 	<tr class="bookRow">
 		<td class="title">{{ book.title }}</td>
 		<td class="pages">{{ book.pages }}</td>
-		<td class="author">AA</td>
+		<td class="author">
+			<div v-for="author in authorsSummary" :key="author">{{ author }}</div>
+		</td>
 		<td class="buttonsTd">
 			<button @click="removeBook(book.id)">Delete</button>
 			<router-link :to="{ name: 'EditBook', params: { id: book.id } }">
@@ -16,17 +18,25 @@
 export default {
     name: 'BookComponent',
     props: ['book'],
+
+	computed: {
+		authorsSummary() {
+			const authors = this.$store.state.authors.filter(author => this.book.authorIds.includes(author.id))
+			return authors.map(author => `${author.name} ${author.surname}`)
+		}
+	},
+
     methods: {
         removeBook: function (id) {
             this.$store.dispatch('removeBook', id)
         }
-    },
+    }
 }
 </script>
 
 <style scoped>
 td {
-    padding: 2px 10px;
+    padding: 2px 20px;
 }
 
 .bookRow {
@@ -42,10 +52,6 @@ td {
     text-align: end;
 }
 
-.author {
-    text-decoration: underline;
-}
-
 button {
     border: 2px solid darkslategray;
     border-radius: 4px;
@@ -56,6 +62,7 @@ button {
 .buttonsTd {
     display: flex;
     flex-direction: row;
+	padding-top: 8px;
     gap: 10px;
 }
 </style>

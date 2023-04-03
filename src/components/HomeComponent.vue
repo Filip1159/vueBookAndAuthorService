@@ -3,7 +3,7 @@
 		<div class="heading">
 			<div class="bookListSpan">Book list</div>
 			<router-link :to="{ name: 'CreateBook' }">
-				<div class="newBookButton">Add new book</div>
+				<div class="newBookButton">+ New book</div>
 			</router-link>
 		</div>
 		<table class="bookListTable">
@@ -52,7 +52,7 @@ tbody {
 }
 
 th {
-    padding: 2px;
+    padding: 2px 20px;
 }
 
 .pagesTh {
@@ -74,7 +74,7 @@ th {
     border-radius: 4px;
     background-color: aquamarine;
     padding: 5px 15px;
-    width: 120px;
+    width: 150px;
     text-align: center;
     cursor: pointer;
 }
