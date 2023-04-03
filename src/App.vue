@@ -37,6 +37,7 @@ body {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
+	background: gainsboro;
 }
 
 .header {
@@ -46,5 +47,33 @@ body {
     padding: 20px;
     text-align: start;
     margin: 0;
+	border-bottom: 5px solid black;
 }
+
+button {
+	cursor: pointer;
+	background: #42b983;
+	border: 3px solid black;
+	border-radius: 8px;
+	color: white;
+	float: left;
+	margin: 0 4px;
+	width: 65px;
+	text-align: center;
+}
+
+button:hover {
+	box-shadow: 5px 5px 5px #aaa;;
+}
+
+input[type="text"] {
+	outline: none;
+	border-radius: 4px;
+	padding: 4px;
+}
+
+label {
+	padding: 4px;
+}
+
 </style>

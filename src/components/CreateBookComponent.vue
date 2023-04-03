@@ -1,27 +1,30 @@
 <template>
 	<form @submit="e => createBook(e)">
+		<div class="formTitle">Create new book</div>
 		<div class="inputWrapper">
 			<label for="title">Title:</label>
-			<input type="text" name="title" id="title"/>
 			<input type="text" name="title" id="title" v-model="book.title"/>
 		</div>
 		<div class="inputWrapper">
 			<label for="pages">Pages:</label>
-			<input type="text" name="pages" id="pages"/>
 			<input type="text" name="pages" id="pages" v-model="book.pages"/>
 		</div>
-		<div class="inputWrapper">
-			<label for="authors">Authors:</label>
-			<input type="text" name="authors" id="authors"/>
+			<multiselect
+				placeholder="Authors"
+				class="multiselect"
+				v-model="selectedAuthors"
+				:multiple="true"
+				:options="authors"
+				label="fullName"
+				track-by="fullName"
+			>
+			</multiselect>
+		<div class="buttonsWrapper">
+			<button @click="e => createBook(e)">Save</button>
+			<router-link :to="{ name: 'Home' }">
+				<button>Cancel</button>
+			</router-link>
 		</div>
-		<multiselect
-			class="multiselect"
-			v-model="selected"
-			:multiple="true"
-			:options="authors"
-			@select="log">
-		</multiselect>
-		<input type="submit" value="Submit"/>
 	</form>
 </template>
 <script>
@@ -29,33 +32,34 @@ import Multiselect from 'vue-multiselect'
 
 export default {
     name: "CreateBookComponent",
-	components: { Multiselect },
+    components: {Multiselect},
     data() {
         return {
-			book: {},
-			selected: null,
-			authors: []
-		}
+            book: {},
+            selectedAuthors: null,
+            authors: []
+        }
     },
+
+    mounted() {
+        this.authors = this.$store.state.authors
+            .map(author => ({
+                id: author.id,
+                fullName: `${author.name} ${author.surname}`
+            }))
+    },
+
     methods: {
-		log: function() {
-			console.log(this.selected)
-		},
         createBook: function (e) {
             e.preventDefault()
-            fetch(`http://localhost:9000/book`, {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({...this.book, authorIds: []})
-            })
-                .then(r => {
-                    if (r.status === 201) {
-                        this.$router.push('/')
-                    }
-                })
-                .catch(e => console.warn(e))
+			const bookToCreate = {
+				title: this.book.title,
+				pages: this.book.pages,
+				authorIds: this.selectedAuthors.map(a => a.id)
+			}
+            this.$store.dispatch('createBook', bookToCreate).then(() => {
+				this.$router.push('/')
+			})
         }
     }
 }
@@ -63,21 +67,45 @@ export default {
 <style scoped>
 
 form {
-	margin: 20px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 30px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.formTitle {
+	font-size: 32px;
+	font-weight: 700;
+	align-self: flex-start;
+	margin-left: 40px;
+	margin-bottom: 40px;
 }
 
 .inputWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+	font-size: 18px;
+}
+
+.buttonsWrapper {
 	display: flex;
 	flex-direction: row;
 	gap: 20px;
 }
 
+button {
+	padding: 5px 15px;
+	width: 120px;
+}
+
 .multiselect {
-	max-width: 400px;
+	min-width: 400px;
+    max-width: 400px;
+	border: 2px solid black;
+	border-radius: 4px;
+	margin-bottom: 150px;
 }
 
 </style>

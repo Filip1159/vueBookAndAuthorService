@@ -3,7 +3,7 @@
 		<div class="heading">
 			<div class="bookListSpan">Book list</div>
 			<router-link :to="{ name: 'CreateBook' }">
-				<div class="newBookButton">+ New book</div>
+				<button class="newBookButton">+ New book</button>
 			</router-link>
 		</div>
 		<table class="bookListTable">
@@ -33,8 +33,10 @@ export default {
 
 <style scoped>
 .bookListSpan {
-    font-size: 28px;
-    margin: 10px 40px;
+	font-size: 32px;
+	font-weight: 700;
+	align-self: flex-start;
+	margin: 20px 0 40px 100px;
 }
 
 .bookListTable {
@@ -43,16 +45,13 @@ export default {
 }
 
 thead {
-    background-color: darkgray;
+    background-color: #42b983;
     font-size: 18px;
-}
-
-tbody {
-    background-color: cadetblue;
+	border: 2px solid #42b983;
 }
 
 th {
-    padding: 2px 20px;
+    padding: 6px 25px;
 }
 
 .pagesTh {
@@ -70,13 +69,8 @@ th {
 }
 
 .newBookButton {
-    border: 2px solid darkslategray;
-    border-radius: 4px;
-    background-color: aquamarine;
     padding: 5px 15px;
     width: 150px;
-    text-align: center;
-    cursor: pointer;
 }
 
 a {

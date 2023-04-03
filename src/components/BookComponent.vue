@@ -19,12 +19,12 @@ export default {
     name: 'BookComponent',
     props: ['book'],
 
-	computed: {
-		authorsSummary() {
-			const authors = this.$store.state.authors.filter(author => this.book.authorIds.includes(author.id))
-			return authors.map(author => `${author.name} ${author.surname}`)
-		}
-	},
+    computed: {
+        authorsSummary() {
+            const authors = this.$store.state.authors.filter(author => this.book.authorIds.includes(author.id))
+            return authors.map(author => `${author.name} ${author.surname}`)
+        }
+    },
 
     methods: {
         removeBook: function (id) {
@@ -37,6 +37,7 @@ export default {
 <style scoped>
 td {
     padding: 2px 20px;
+    border: 2px solid #42b983;
 }
 
 .bookRow {
@@ -52,17 +53,9 @@ td {
     text-align: end;
 }
 
-button {
-    border: 2px solid darkslategray;
-    border-radius: 4px;
-    background-color: aquamarine;
-    cursor: pointer;
+.buttonsTd {
+    padding: 8px;
+	min-width: 165px;
 }
 
-.buttonsTd {
-    display: flex;
-    flex-direction: row;
-	padding-top: 8px;
-    gap: 10px;
-}
 </style>
