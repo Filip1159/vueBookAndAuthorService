@@ -7,80 +7,80 @@ const HEADERS = {'Content-Type': 'application/json'}
 
 export const store = new Vuex.Store({
     state: {
-        bookBeingUpdated: {
-            title: '',
-            pages: 0,
-            authors: []
+        carBeingUpdated: {
+            model: '',
+            year: 0,
+            owners: []
         },
-        authors: [],
-        books: []
+        owners: [],
+        cars: []
     },
     getters: {},
     mutations: {
-        SET_BOOKS(state, books) {
-            state.books = books
-            state.books.sort(function (b1, b2) { return b2.id - b1.id })
+        SET_CARS(state, cars) {
+            state.cars = cars
+            state.cars.sort(function (b1, b2) { return b2.id - b1.id })
         },
-        SET_AUTHORS(state, authors) {
-            state.authors = authors
+        SET_OWNERS(state, owners) {
+            state.owners = owners
         },
-        SET_BOOK_BEING_UPDATED(state, bookBeingUpdated) {
-            state.bookBeingUpdated = bookBeingUpdated
+        SET_CAR_BEING_UPDATED(state, carBeingUpdated) {
+            state.carBeingUpdated = carBeingUpdated
         },
-        REMOVE_BOOK(state, bookIdToRemove) {
-            state.books = state.books.filter(book => book.id !== bookIdToRemove)
+        REMOVE_CAR(state, carIdToRemove) {
+            state.cars = state.cars.filter(car => car.id !== carIdToRemove)
         },
-        UPDATE_BOOK(state, bookToUpdate) {
-            const bookFromStore = state.books.filter(book => book.id === bookToUpdate.id)[0]
-            bookFromStore.title = bookToUpdate.title
-            bookFromStore.pages = bookToUpdate.pages
-            bookFromStore.authorIds = bookToUpdate.authorIds
+        UPDATE_CAR(state, carToUpdate) {
+            const carFromStore = state.cars.filter(car => car.id === carToUpdate.id)[0]
+            carFromStore.model = carToUpdate.model
+            carFromStore.year = carToUpdate.year
+            carFromStore.ownerIds = carToUpdate.ownerIds
         },
-        CREATE_BOOK(state, bookToCreate) {
-            state.books.push(bookToCreate)
-            state.books.sort(function (b1, b2) { return b2.id - b1.id })
+        CREATE_CAR(state, carToCreate) {
+            state.cars.push(carToCreate)
+            state.cars.sort(function (b1, b2) { return b2.id - b1.id })
         }
     },
     actions: {
-        setBooks({commit}, books) {
-            commit('SET_BOOKS', books)
+        setCars({commit}, cars) {
+            commit('SET_CARS', cars)
         },
-        setAuthors({commit}, authors) {
-            commit('SET_AUTHORS', authors)
+        setOwners({commit}, owners) {
+            commit('SET_OWNERS', owners)
         },
-        removeBook({commit}, bookId) {
+        removeCar({commit}, carId) {
             console.log(1)
-            fetch(`http://localhost:9000/book/${bookId}`, {method: 'delete'})
+            fetch(`http://localhost:9000/car/${carId}`, {method: 'delete'})
                 .then(r => {
                     console.log(2)
-                    if (r.status === 200) commit('REMOVE_BOOK', bookId)
+                    if (r.status === 200) commit('REMOVE_CAR', carId)
                 })
         },
-        updateBook({commit}, newlyUpdatedBook) {
-            console.log(newlyUpdatedBook)
-            fetch(`http://localhost:9000/book/${newlyUpdatedBook.id}`,
+        updateCar({commit}, newlyUpdatedCar) {
+            console.log(newlyUpdatedCar)
+            fetch(`http://localhost:9000/car/${newlyUpdatedCar.id}`,
                 {
                     method: 'put',
                     headers: HEADERS,
                     body: JSON.stringify({
-                        title: newlyUpdatedBook.title,
-                        pages: newlyUpdatedBook.pages,
-                        authorIds: newlyUpdatedBook.authorIds
+                        model: newlyUpdatedCar.model,
+                        year: newlyUpdatedCar.year,
+                        ownerIds: newlyUpdatedCar.ownerIds
                     })
                 })
                 .then(r => {
                     console.log('upd')
-                    if (r.status === 200) commit('UPDATE_BOOK', newlyUpdatedBook)
+                    if (r.status === 200) commit('UPDATE_CAR', newlyUpdatedCar)
                 })
         },
-        createBook({commit}, bookToCreate) {
-            fetch(`http://localhost:9000/book`, {
+        createCar({commit}, carToCreate) {
+            fetch(`http://localhost:9000/car`, {
                 method: 'post',
                 headers: HEADERS,
-                body: JSON.stringify(bookToCreate)
+                body: JSON.stringify(carToCreate)
             })
                 .then(async r => {
-                    if (r.status === 201) commit('CREATE_BOOK', await r.json())
+                    if (r.status === 201) commit('CREATE_CAR', await r.json())
                 })
         }
     }

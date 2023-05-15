@@ -1,22 +1,22 @@
 <template>
 	<div>
 		<div class="heading">
-			<div class="bookListSpan">Book list</div>
-			<router-link :to="{ name: 'CreateBook' }">
-				<button class="newBookButton">+ New book</button>
+			<div class="carListSpan">Car list</div>
+			<router-link :to="{ name: 'CreateCar' }">
+				<button class="newCarButton">+ New car</button>
 			</router-link>
 		</div>
-		<table class="bookListTable">
+		<table class="carListTable">
 			<thead>
 			<tr>
-				<th class="titleTh">Title</th>
-				<th class="pagesTh">Pages</th>
-				<th class="authorsTh">Authors</th>
+				<th class="modelTh">Model</th>
+				<th class="yearTh">Year</th>
+				<th class="ownersTh">Owners</th>
 				<th class="actionTh">Action</th>
 			</tr>
 			</thead>
 			<tbody>
-			<book v-for="book in booksPage" :key="book.id" :book="book"/>
+			<car v-for="car in carsPage" :key="car.id" :car="car"/>
 			</tbody>
 		</table>
 		<div class="navigation">
@@ -28,13 +28,13 @@
 </template>
 
 <script>
-import Book from './BookComponent.vue'
+import Car from './CarComponent.vue'
 
 const paginate = (items, page, perPage = 5) => items.slice(perPage * (page - 1), perPage * page);
 
 export default {
     name: 'HomeComponent',
-    components: {Book},
+    components: {Car},
 	data() {
 		return {
 			pageNumber: 1,
@@ -42,17 +42,17 @@ export default {
 	},
 
 	computed: {
-		booksPage() {
-			return paginate(this.$store.state.books, this.pageNumber)
+		carsPage() {
+			return paginate(this.$store.state.cars, this.pageNumber)
 		},
-		booksCount() {
-			return this.$store.state.books.length
+		carsCount() {
+			return this.$store.state.cars.length
 		}
 	},
 
 	methods: {
 		canSwitchNextPage() {
-			return this.pageNumber !== Math.ceil(this.booksCount / 5)
+			return this.pageNumber !== Math.ceil(this.carsCount / 5)
 		},
 		canSwitchPreviousPage() {
 			return this.pageNumber !== 1
@@ -68,14 +68,14 @@ export default {
 </script>
 
 <style scoped>
-.bookListSpan {
+.carListSpan {
 	font-size: 32px;
 	font-weight: 700;
 	align-self: flex-start;
 	margin: 20px 0 40px 100px;
 }
 
-.bookListTable {
+.carListTable {
     margin: 30px auto;
     min-width: 70%;
 }
@@ -90,15 +90,15 @@ th {
     padding: 6px 25px;
 }
 
-.titleTh {
+.modelTh {
 	width: 30%;
 }
 
-.pagesTh {
+.yearTh {
     width: 80px;
 }
 
-.authorsTh {
+.ownersTh {
 	width: 35%;
 }
 
@@ -112,7 +112,7 @@ th {
     justify-content: space-between;
 }
 
-.newBookButton {
+.newCarButton {
     padding: 5px 15px;
     width: 150px;
 }

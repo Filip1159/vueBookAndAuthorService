@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<header class="header">
-			Book and Author service
+			Car and Owner service
 		</header>
 		<router-view></router-view>
 	</div>
@@ -12,20 +12,20 @@ export default {
     name: 'App',
     components: {},
 	created () {
-		fetch(`http://localhost:9000/book`)
+		fetch(`http://localhost:9000/car`)
 			.then(r => r.json())
 			.then(json => {
-				console.log("Books")
+				console.log("Cars")
 				console.log(json)
-				this.$store.dispatch('setBooks', json)
+				this.$store.dispatch('setCars', json)
 			})
 			.catch(e => console.warn(e))
-		fetch(`http://localhost:9000/author`)
+		fetch(`http://localhost:9000/owner`)
 			.then(r => r.json())
 			.then(json => {
-				console.log("Authors")
+				console.log("Owners")
 				console.log(json)
-				this.$store.dispatch('setAuthors', json)
+				this.$store.dispatch('setOwners', json)
 			})
 			.catch(e => console.warn(e))
 	}

@@ -1,26 +1,26 @@
 <template>
-	<form @submit="e => createBook(e)">
-		<div class="formTitle">Create new book</div>
+	<form @submit="e => createCar(e)">
+		<div class="formTitle">Create new car</div>
 		<div class="inputWrapper">
-			<label for="title">Title:</label>
-			<input type="text" name="title" id="title" v-model="book.title"/>
+			<label for="model">model:</label>
+			<input type="text" name="model" id="model" v-model="car.model"/>
 		</div>
 		<div class="inputWrapper">
-			<label for="pages">Pages:</label>
-			<input type="text" name="pages" id="pages" v-model="book.pages"/>
+			<label for="year">Year:</label>
+			<input type="text" name="year" id="year" v-model="car.year"/>
 		</div>
 			<multiselect
-				placeholder="Authors"
+				placeholder="Owners"
 				class="multiselect"
-				v-model="selectedAuthors"
+				v-model="selectedOwners"
 				:multiple="true"
-				:options="authors"
+				:options="owners"
 				label="fullName"
 				track-by="fullName"
 			>
 			</multiselect>
 		<div class="buttonsWrapper">
-			<button @click="e => createBook(e)">Save</button>
+			<button @click="e => createCar(e)">Save</button>
 			<router-link :to="{ name: 'Home' }">
 				<button>Cancel</button>
 			</router-link>
@@ -31,33 +31,33 @@
 import Multiselect from 'vue-multiselect'
 
 export default {
-    name: "CreateBookComponent",
+    name: "CreateCarComponent",
     components: {Multiselect},
     data() {
         return {
-            book: {},
-            selectedAuthors: null,
-            authors: []
+            car: {},
+            selectedOwners: null,
+            owners: []
         }
     },
 
     mounted() {
-        this.authors = this.$store.state.authors
-            .map(author => ({
-                id: author.id,
-                fullName: `${author.name} ${author.surname}`
+        this.owners = this.$store.state.owners
+            .map(owner => ({
+                id: owner.id,
+                fullName: `${owner.name} ${owner.surname}`
             }))
     },
 
     methods: {
-        createBook: function (e) {
+        createCar: function (e) {
             e.preventDefault()
-			const bookToCreate = {
-				title: this.book.title,
-				pages: this.book.pages,
-				authorIds: this.selectedAuthors.map(a => a.id)
+			const carToCreate = {
+				model: this.car.model,
+				year: this.car.year,
+				ownerIds: this.selectedOwners.map(o => o.id)
 			}
-            this.$store.dispatch('createBook', bookToCreate).then(() => {
+            this.$store.dispatch('createCar', carToCreate).then(() => {
 				this.$router.push('/')
 			})
         }
