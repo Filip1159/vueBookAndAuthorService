@@ -57,7 +57,7 @@ button {
 	border-radius: 8px;
 	color: white;
 	float: left;
-	margin: 0 4px;
+	margin: 2px 4px;
 	width: 65px;
 	text-align: center;
 }

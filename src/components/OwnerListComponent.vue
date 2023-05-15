@@ -1,32 +1,31 @@
 <template>
     <div>
         <div class="heading">
-            <div class="carListSpan">Car list</div>
+            <div class="ownerListSpan">Owner list</div>
             <div>
-                <router-link :to="{ name: 'CreateCar' }">
-                    <button class="newCarButton">+ New car</button>
+                <router-link :to="{ name: 'CreateOwner' }">
+                    <button class="newOwnerButton">+ New Owner</button>
                 </router-link>
-                <router-link :to="{ name: 'OwnerList' }">
-                    <button class="newCarButton">Owners list</button>
+                <router-link :to="{ name: 'Home' }">
+                    <button class="newOwnerButton">Go back home</button>
                 </router-link>
             </div>
         </div>
-        <table class="carListTable">
+        <table class="ownerListTable">
             <thead>
             <tr>
-                <th class="modelTh">Model</th>
-                <th class="yearTh">Year</th>
-                <th class="ownersTh">Owners</th>
+                <th class="nameTh">Name</th>
+                <th class="surnameTh">Surname</th>
+                <th class="carsTh">Cars</th>
                 <th class="actionTh">Action</th>
             </tr>
             </thead>
             <tbody>
-            <car v-for="car in carsPage" :key="car.id" :car="car"/>
+            <owner v-for="owner in ownersPage" :key="owner.id" :owner="owner"/>
             </tbody>
         </table>
         <div class="navigation">
-            <button class="navigationButton" :class="{active: canSwitchPreviousPage()}" @click="previousPage">&lt;
-            </button>
+            <button class="navigationButton" :class="{active: canSwitchPreviousPage()}" @click="previousPage">&lt;</button>
             <span class="pageSpan">{{ pageNumber }}</span>
             <button class="navigationButton" :class="{active: canSwitchNextPage()}" @click="nextPage">&gt;</button>
         </div>
@@ -34,13 +33,13 @@
 </template>
 
 <script>
-import Car from './CarComponent.vue'
+import Owner from './OwnerComponent.vue'
 
 const paginate = (items, page, perPage = 5) => items.slice(perPage * (page - 1), perPage * page);
 
 export default {
-    name: 'HomeComponent',
-    components: {Car},
+    name: 'OwnerListComponent',
+    components: {Owner},
     data() {
         return {
             pageNumber: 1,
@@ -48,17 +47,17 @@ export default {
     },
 
     computed: {
-        carsPage() {
-            return paginate(this.$store.state.cars, this.pageNumber)
+        ownersPage() {
+            return paginate(this.$store.state.owners, this.pageNumber)
         },
-        carsCount() {
-            return this.$store.state.cars.length
+        ownersCount() {
+            return this.$store.state.owners.length
         }
     },
 
     methods: {
         canSwitchNextPage() {
-            return this.pageNumber !== Math.ceil(this.carsCount / 5)
+            return this.pageNumber !== Math.ceil(this.ownersCount / 5)
         },
         canSwitchPreviousPage() {
             return this.pageNumber !== 1
@@ -74,14 +73,15 @@ export default {
 </script>
 
 <style scoped>
-.carListSpan {
+
+.ownerListSpan {
     font-size: 32px;
     font-weight: 700;
     align-self: flex-start;
     margin: 20px 0 40px 100px;
 }
 
-.carListTable {
+.ownerListTable {
     margin: 30px auto;
     min-width: 70%;
 }
@@ -96,15 +96,15 @@ th {
     padding: 6px 25px;
 }
 
-.modelTh {
+.nameTh {
     width: 30%;
 }
 
-.yearTh {
+.surnameTh {
     width: 80px;
 }
 
-.ownersTh {
+.carsTh {
     width: 35%;
 }
 
@@ -118,7 +118,7 @@ th {
     justify-content: space-between;
 }
 
-.newCarButton {
+.newOwnerButton {
     padding: 5px 15px;
     width: 150px;
 }
@@ -153,5 +153,6 @@ a {
 .navigationButton.active {
     opacity: 1;
 }
+
 
 </style>
