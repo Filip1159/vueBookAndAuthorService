@@ -6,6 +6,7 @@ import Vue from "vue";
 import EditOwnerComponent from "@/components/EditOwnerComponent.vue";
 import CreateOwnerComponent from "@/components/CreateOwnerComponent.vue";
 import OwnerListComponent from "@/components/OwnerListComponent.vue";
+import AuthorsComponent from "@/components/AuthorsComponent.vue";
 
 Vue.use(VueRouter)
 
@@ -16,6 +17,7 @@ const routes = [
     { path: '/create-car', name: 'CreateCar', component: CreateCarComponent },
     { path: '/edit-owner', name: 'EditOwner', component: EditOwnerComponent },
     { path: '/create-owner', name: 'CreateOwner', component: CreateOwnerComponent },
+    { path: '/authors', name: 'Authors', component: AuthorsComponent }
 ]
 
 export const router = new VueRouter({

@@ -13,7 +13,8 @@ export const store = new Vuex.Store({
             owners: []
         },
         owners: [],
-        cars: []
+        cars: [],
+        authors: ''
     },
     getters: {},
     mutations: {
@@ -23,6 +24,9 @@ export const store = new Vuex.Store({
         },
         SET_OWNERS(state, owners) {
             state.owners = owners
+        },
+        SET_AUTHORS(state, authors) {
+            state.authors = authors
         },
         SET_CAR_BEING_UPDATED(state, carBeingUpdated) {
             state.carBeingUpdated = carBeingUpdated
@@ -68,6 +72,9 @@ export const store = new Vuex.Store({
         }
     },
     actions: {
+        setAuthors({commit}, authors) {
+            commit('SET_AUTHORS', authors)
+        },
         setCars({commit}, cars) {
             commit('SET_CARS', cars)
         },
@@ -144,5 +151,8 @@ export const store = new Vuex.Store({
                     if (r.status === 200) commit('UPDATE_OWNER', newlyUpdatedOwner)
                 })
         },
+        getAuthors() {
+
+        }
     }
 })
