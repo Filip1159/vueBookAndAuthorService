@@ -4,17 +4,25 @@ import Vue from "vue";
 Vue.use(Vuex)
 
 const HEADERS = {'Content-Type': 'application/json'}
+const JSON_FORMAT_HEADER = {Accept: 'application/json'}
+const XML_FORMAT_HEADER = {Accept: 'application/xml'}
+
+const SERVER_IP = 'localhost'
 
 export const store = new Vuex.Store({
     state: {
         carBeingUpdated: {
+            brand: '',
             model: '',
             year: 0,
+            firstRegistration: null,
             owners: []
         },
         owners: [],
         cars: [],
-        authors: ''
+        inspections: [],
+        authors: '',
+        bodyFormat: 'JSON'
     },
     getters: {},
     mutations: {
@@ -25,8 +33,16 @@ export const store = new Vuex.Store({
         SET_OWNERS(state, owners) {
             state.owners = owners
         },
+        SET_INSPECTIONS(state, inspections) {
+            state.inspections = inspections
+        },
         SET_AUTHORS(state, authors) {
             state.authors = authors
+        },
+        TOGGLE_BODY_FORMAT(state) {
+            if (state.bodyFormat === 'XML')
+                state.bodyFormat = 'JSON'
+            else state.bodyFormat = 'XML'
         },
         SET_CAR_BEING_UPDATED(state, carBeingUpdated) {
             state.carBeingUpdated = carBeingUpdated
@@ -37,8 +53,10 @@ export const store = new Vuex.Store({
         },
         UPDATE_CAR(state, carToUpdate) {
             const carFromStore = state.cars.filter(car => car.id === carToUpdate.id)[0]
+            carFromStore.brand = carToUpdate.brand
             carFromStore.model = carToUpdate.model
             carFromStore.year = carToUpdate.year
+            carFromStore.firstRegistration = carToUpdate.firstRegistration
             carFromStore.ownerIds = carToUpdate.ownerIds
             const updatedOwnersFromStore = state.owners.filter(owner => carFromStore.ownerIds.includes(owner.id))
             updatedOwnersFromStore.forEach(owner => !owner.carIds.includes(carToUpdate.id) ?? owner.carIds.push(carToUpdate.id))
@@ -59,6 +77,8 @@ export const store = new Vuex.Store({
             const ownerFromStore = state.owners.filter(owner => owner.id === ownerToUpdate.id)[0]
             ownerFromStore.name = ownerToUpdate.name
             ownerFromStore.surname = ownerToUpdate.surname
+            ownerFromStore.dateOfBirth = ownerToUpdate.dateOfBirth
+            ownerFromStore.isPremiumCustomer = ownerToUpdate.isPremiumCustomer
             ownerFromStore.carIds = ownerToUpdate.carIds
             const updatedCarsFromStore = state.cars.filter(car => ownerFromStore.carIds.includes(car.id))
             updatedCarsFromStore.forEach(car => !car.ownerIds.includes(ownerToUpdate.id) ?? car.ownerIds.push(ownerToUpdate.id))
@@ -75,37 +95,49 @@ export const store = new Vuex.Store({
         setAuthors({commit}, authors) {
             commit('SET_AUTHORS', authors)
         },
+        toggleBodyFormat({commit}) {
+            commit('TOGGLE_BODY_FORMAT')
+        },
         setCars({commit}, cars) {
             commit('SET_CARS', cars)
+        },
+        setInspections({commit}, inspections) {
+            commit('SET_INSPECTIONS', inspections)
         },
         setOwners({commit}, owners) {
             commit('SET_OWNERS', owners)
         },
-        removeCar({commit}, carId) {
+        removeCar({commit, state}, carId) {
             console.log(1)
-            fetch(`http://localhost:9000/car/${carId}`, {method: 'delete'})
+            fetch(`http://${SERVER_IP}:9000/car/${carId}`, {
+                method: 'delete'
+            })
                 .then(r => {
                     console.log(2)
                     if (r.status === 200) commit('REMOVE_CAR', carId)
                 })
         },
-        removeOwner({commit}, ownerId) {
+        removeOwner({commit, state}, ownerId) {
             console.log(1)
-            fetch(`http://localhost:9000/owner/${ownerId}`, {method: 'delete'})
+            fetch(`http://${SERVER_IP}:9000/owner/${ownerId}`, {
+                method: 'delete'
+            })
                 .then(r => {
                     console.log(2)
                     if (r.status === 200) commit('REMOVE_OWNER', ownerId)
                 })
         },
-        updateCar({commit}, newlyUpdatedCar) {
+        updateCar({commit, state}, newlyUpdatedCar) {
             console.log(newlyUpdatedCar)
-            fetch(`http://localhost:9000/car/${newlyUpdatedCar.id}`,
+            fetch(`http://${SERVER_IP}:9000/car/${newlyUpdatedCar.id}`,
                 {
                     method: 'put',
                     headers: HEADERS,
                     body: JSON.stringify({
+                        brand: newlyUpdatedCar.brand,
                         model: newlyUpdatedCar.model,
                         year: newlyUpdatedCar.year,
+                        firstRegistration: newlyUpdatedCar.firstRegistration,
                         ownerIds: newlyUpdatedCar.ownerIds
                     })
                 })
@@ -114,8 +146,8 @@ export const store = new Vuex.Store({
                     if (r.status === 200) commit('UPDATE_CAR', newlyUpdatedCar)
                 })
         },
-        createCar({commit}, carToCreate) {
-            fetch(`http://localhost:9000/car`, {
+        createCar({commit, state}, carToCreate) {
+            fetch(`http://${SERVER_IP}:9000/car`, {
                 method: 'post',
                 headers: HEADERS,
                 body: JSON.stringify(carToCreate)
@@ -124,8 +156,8 @@ export const store = new Vuex.Store({
                     if (r.status === 201) commit('CREATE_CAR', await r.json())
                 })
         },
-        createOwner({commit}, ownerToCreate) {
-            fetch(`http://localhost:9000/owner`, {
+        createOwner({commit, state}, ownerToCreate) {
+            fetch(`http://${SERVER_IP}:9000/owner`, {
                 method: 'post',
                 headers: HEADERS,
                 body: JSON.stringify(ownerToCreate)
@@ -134,15 +166,17 @@ export const store = new Vuex.Store({
                     if (r.status === 201) commit('CREATE_OWNER', await r.json())
                 })
         },
-        updateOwner({commit}, newlyUpdatedOwner) {
+        updateOwner({commit, state}, newlyUpdatedOwner) {
             console.log(newlyUpdatedOwner)
-            fetch(`http://localhost:9000/owner/${newlyUpdatedOwner.id}`,
+            fetch(`http://${SERVER_IP}:9000/owner/${newlyUpdatedOwner.id}`,
                 {
                     method: 'put',
                     headers: HEADERS,
                     body: JSON.stringify({
                         name: newlyUpdatedOwner.name,
                         surname: newlyUpdatedOwner.surname,
+                        dateOfBirth: newlyUpdatedOwner.dateOfBirth,
+                        isPremiumCustomer: newlyUpdatedOwner.isPremiumCustomer,
                         carIds: newlyUpdatedOwner.carIds
                     })
                 })
@@ -150,9 +184,6 @@ export const store = new Vuex.Store({
                     console.log('upd')
                     if (r.status === 200) commit('UPDATE_OWNER', newlyUpdatedOwner)
                 })
-        },
-        getAuthors() {
-
         }
     }
 })

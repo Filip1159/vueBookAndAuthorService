@@ -1,7 +1,9 @@
 <template>
 	<tr class="carRow">
+		<td class="brand">{{ car.brand }}</td>
 		<td class="model">{{ car.model }}</td>
 		<td class="year">{{ car.year }}</td>
+		<td class="fistRegistration">{{ car.firstRegistration }}</td>
 		<td class="owner">
 			<div v-for="owner in ownersSummary" :key="owner">{{ owner }}</div>
 		</td>
@@ -45,12 +47,20 @@ td {
     border: 1px solid lightblue;
 }
 
+.brand {
+  font-weight: bold;
+}
+
 .model {
     font-weight: bold;
 }
 
 .year {
     text-align: end;
+}
+
+.firstRegistration {
+  text-align: center;
 }
 
 .buttonsTd {

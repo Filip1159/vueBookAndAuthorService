@@ -9,6 +9,14 @@
             <label for="surname">Surname:</label>
             <input type="text" name="surname" id="surname" v-model="ownerBeingUpdated.surname"/>
         </div>
+        <div class="inputWrapper">
+          <label for="dateOfBirth">Date of birth:</label>
+          <input type="date" name="dateOfBirth" id="dateOfBirth" v-model="ownerBeingUpdated.dateOfBirth"/>
+        </div>
+        <div class="inputWrapper">
+          <label for="isPremium">Is premium:</label>
+          <input type="checkbox" name="isPremium" id="isPremium" v-model="ownerBeingUpdated.isPremiumCustomer"/>
+        </div>
         <multiselect
                 placeholder="Cars"
                 class="multiselect"
@@ -48,7 +56,7 @@ export default {
         carNames() {
             return this.$store.state.cars.map(car => ({
                 id: car.id,
-                carName: `${car.name} ${car.surname}`
+                carName: `${car.model} ${car.year}`
             }))
         }
     },

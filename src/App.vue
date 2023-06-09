@@ -2,6 +2,8 @@
     <div>
         <header class="header">
             Car and Owner service
+            <button class="authors" @click="() => this.$store.dispatch('toggleBodyFormat')" v-html="bodyFormat">
+            </button>
             <router-link :to="{ name: 'Authors' }">
                 <button class="newCarButton authors">Authors</button>
             </router-link>
@@ -11,11 +13,21 @@
 </template>
 
 <script>
+const SERVER_IP = 'localhost'
+
 export default {
     name: 'App',
     components: {},
+
+
+    computed: {
+        bodyFormat() {
+            return this.$store.state.bodyFormat
+        }
+    },
+
     created() {
-        fetch(`http://localhost:9000/car`)
+        fetch(`http://${SERVER_IP}:9000/car`)
             .then(r => r.json())
             .then(json => {
                 console.log("Cars")
@@ -23,7 +35,7 @@ export default {
                 this.$store.dispatch('setCars', json)
             })
             .catch(e => console.warn(e))
-        fetch(`http://localhost:9000/owner`)
+        fetch(`http://${SERVER_IP}:9000/owner`)
             .then(r => r.json())
             .then(json => {
                 console.log("Owners")
@@ -31,6 +43,12 @@ export default {
                 this.$store.dispatch('setOwners', json)
             })
             .catch(e => console.warn(e))
+		fetch('http://localhost:9000/inspection')
+			.then(r => r.json())
+			.then(res => {
+				console.log(res)
+				this.$store.dispatch('setInspections', res)
+			})
         fetch('http://localhost:9000/authors')
             .then(r => r.text())
             .then(res => {

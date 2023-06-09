@@ -16,57 +16,28 @@
             <tr>
                 <th class="nameTh">Name</th>
                 <th class="surnameTh">Surname</th>
+                <th class="dateOfBirthTh">Date of birth</th>
+                <th class="premiumTh">Premium</th>
                 <th class="carsTh">Cars</th>
                 <th class="actionTh">Action</th>
             </tr>
             </thead>
             <tbody>
-            <owner v-for="owner in ownersPage" :key="owner.id" :owner="owner"/>
+            <owner v-for="owner in ownerList" :key="owner.id" :owner="owner"/>
             </tbody>
         </table>
-        <div class="navigation">
-            <button class="navigationButton" :class="{active: canSwitchPreviousPage()}" @click="previousPage">&lt;</button>
-            <span class="pageSpan">{{ pageNumber }}</span>
-            <button class="navigationButton" :class="{active: canSwitchNextPage()}" @click="nextPage">&gt;</button>
-        </div>
     </div>
 </template>
 
 <script>
 import Owner from './OwnerComponent.vue'
 
-const paginate = (items, page, perPage = 5) => items.slice(perPage * (page - 1), perPage * page);
-
 export default {
     name: 'OwnerListComponent',
     components: {Owner},
     data() {
         return {
-            pageNumber: 1,
-        }
-    },
-
-    computed: {
-        ownersPage() {
-            return paginate(this.$store.state.owners, this.pageNumber)
-        },
-        ownersCount() {
-            return this.$store.state.owners.length
-        }
-    },
-
-    methods: {
-        canSwitchNextPage() {
-            return this.pageNumber !== Math.ceil(this.ownersCount / 5)
-        },
-        canSwitchPreviousPage() {
-            return this.pageNumber !== 1
-        },
-        nextPage() {
-            if (this.canSwitchNextPage()) this.pageNumber++
-        },
-        previousPage() {
-            if (this.canSwitchPreviousPage()) this.pageNumber--
+            ownerList: this.$store.state.owners
         }
     }
 }
@@ -97,15 +68,23 @@ th {
 }
 
 .nameTh {
-    width: 30%;
+    width: 20%;
 }
 
 .surnameTh {
-    width: 80px;
+    width: 20%;
+}
+
+.dateOfBirthTh {
+  width: 20%;
+}
+
+.premiumTh {
+  width: 10%;
 }
 
 .carsTh {
-    width: 35%;
+    width: 30%;
 }
 
 .actionTh {

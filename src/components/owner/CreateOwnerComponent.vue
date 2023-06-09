@@ -9,6 +9,14 @@
             <label for="surname">Surname:</label>
             <input type="text" name="surname" id="surname" v-model="owner.surname"/>
         </div>
+        <div class="inputWrapper">
+          <label for="dateOfBirth">Date of birth:</label>
+          <input type="date" name="dateOfBirth" id="dateOfBirth" v-model="owner.dateOfBirth"/>
+        </div>
+        <div class="inputWrapper">
+          <label for="isPremium">Is premium:</label>
+          <input type="checkbox" name="isPremium" id="isPremium" v-model="owner.isPremiumCustomer"/>
+        </div>
         <multiselect
                 placeholder="Cars"
                 class="multiselect"
@@ -56,7 +64,7 @@ export default {
             const ownerToCreate = {
                 name: this.owner.name,
                 surname: this.owner.surname,
-                carIds: this.selectedCars.map(c => c.id)
+                carIds: this.selectedCars ? this.selectedCars.map(c => c.id) : []
             }
             this.$store.dispatch('createOwner', ownerToCreate).then(() => {
                 this.$router.push('/')

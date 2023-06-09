@@ -2,6 +2,10 @@
     <form>
         <div class="formTitle">Edit car</div>
         <div class="inputWrapper">
+          <label for="brand">Brand:</label>
+          <input type="text" name="brand" id="brand" v-model="carBeingUpdated.brand"/>
+        </div>
+        <div class="inputWrapper">
             <label for="model">Model:</label>
             <input type="text" name="model" id="model" v-model="carBeingUpdated.model"/>
         </div>
@@ -9,6 +13,10 @@
             <label for="year">Year:</label>
             <input type="text" name="year" id="year" v-model="carBeingUpdated.year"/>
         </div>
+      <div class="inputWrapper">
+        <label for="firstRegistration">First registration:</label>
+        <input type="date" name="firstRegistration" id="firstRegistration" v-model="carBeingUpdated.firstRegistration"/>
+      </div>
         <multiselect
                 placeholder="Owners"
                 class="multiselect"

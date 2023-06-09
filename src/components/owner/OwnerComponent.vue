@@ -2,6 +2,8 @@
     <tr class="ownerRow">
         <td class="name">{{ owner.name }}</td>
         <td class="surname">{{ owner.surname }}</td>
+        <td class="dateOfBirth">{{ owner.dateOfBirth }}</td>
+        <td class="isPremium">{{ owner.isPremiumCustomer }}</td>
         <td class="car">
             <div v-for="car in carsSummary" :key="car">{{ car }}</div>
         </td>
@@ -51,6 +53,14 @@ td {
 
 .surname {
     text-align: end;
+}
+
+.dateOfBirth {
+
+}
+
+.isPremium {
+
 }
 
 .buttonsTd {
