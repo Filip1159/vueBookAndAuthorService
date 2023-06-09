@@ -24,7 +24,7 @@ export default {
     computed: {
         carsSummary() {
             const cars = this.$store.state.cars.filter(car => this.owner.carIds.includes(car.id))
-            return cars.map(car => `${car.model} (${car.year})`)
+            return cars.map(car => `${car.brand} ${car.model} (${car.year})`)
         }
     },
 
@@ -52,7 +52,7 @@ td {
 }
 
 .surname {
-    text-align: end;
+    font-weight: bold;
 }
 
 .dateOfBirth {

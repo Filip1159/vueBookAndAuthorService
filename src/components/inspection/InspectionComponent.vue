@@ -4,7 +4,7 @@
 		<td class="mileage">{{ inspection.mileage }}</td>
 		<td class="comments">{{ inspection.comments }}</td>
 		<td class="isPositive">{{ inspection.isPositive }}</td>
-		<td class="car">{{ inspection.carId }}</td>
+		<td class="car">{{ car }}</td>
 		<td class="buttonsTd">
 			<button @click="removeInspection(inspection.id)">Delete</button>
 			<router-link :to="{ name: 'EditInspection', params: { id: inspection.id } }">
@@ -21,7 +21,8 @@ export default {
 
 	computed: {
 		car() {
-			return this.$store.state.cars.filter(car => car.id === this.inspection.carId)
+			const inspectedCar = this.$store.state.cars.filter(car => car.id === this.inspection.carId)[0]
+			return inspectedCar.brand + ' ' + inspectedCar.model
 		}
 	},
 

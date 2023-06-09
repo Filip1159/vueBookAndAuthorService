@@ -2,14 +2,9 @@
     <div>
         <div class="heading">
             <div class="carListSpan">Car list</div>
-            <div>
-                <router-link :to="{ name: 'CreateCar' }">
-                    <button class="newCarButton">+ New car</button>
-                </router-link>
-                <router-link :to="{ name: 'OwnerList' }">
-                    <button class="newCarButton">Owners list</button>
-                </router-link>
-            </div>
+			<router-link :to="{ name: 'CreateCar' }">
+				<button class="newCarButton">+ New car</button>
+			</router-link>
         </div>
         <table class="carListTable">
             <thead>
@@ -53,7 +48,7 @@ export default {
     font-size: 32px;
     font-weight: 700;
     align-self: flex-start;
-    margin: 20px 0 40px 100px;
+    margin: 20px 40px;
 }
 
 .carListTable {

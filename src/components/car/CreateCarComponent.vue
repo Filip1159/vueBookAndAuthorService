@@ -15,7 +15,7 @@
         </div>
       <div class="inputWrapper">
         <label for="firstRegistration">First registration:</label>
-        <input type="date" name="firstRegistration" id="firstRegistration" v-model="car.firstResistration"/>
+        <input type="date" name="firstRegistration" id="firstRegistration" v-model="car.firstRegistration"/>
       </div>
         <multiselect
                 placeholder="Owners"
@@ -29,7 +29,7 @@
         </multiselect>
         <div class="buttonsWrapper">
             <button @click="e => createCar(e)">Save</button>
-            <router-link :to="{ name: 'Home' }">
+            <router-link :to="{ name: 'CarListComponent' }">
                 <button>Cancel</button>
             </router-link>
         </div>
@@ -61,8 +61,10 @@ export default {
         createCar: function (e) {
             e.preventDefault()
             const carToCreate = {
+				brand: this.car.brand,
                 model: this.car.model,
                 year: this.car.year,
+				firstRegistration: this.car.firstRegistration,
                 ownerIds: this.selectedOwners ? this.selectedOwners.map(o => o.id) : []
             }
             this.$store.dispatch('createCar', carToCreate).then(() => {

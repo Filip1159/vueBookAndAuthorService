@@ -29,7 +29,7 @@
         </multiselect>
         <div class="buttonsWrapper">
             <button @click="e => createOwner(e)">Save</button>
-            <router-link :to="{ name: 'Home' }">
+            <router-link :to="{ name: 'OwnerList' }">
                 <button>Cancel</button>
             </router-link>
         </div>
@@ -54,7 +54,7 @@ export default {
         this.cars = this.$store.state.cars
             .map(car => ({
                 id: car.id,
-                carName: `${car.model} (${car.year})`
+                carName: `${car.brand} ${car.model} (${car.year})`
             }))
     },
 
@@ -64,10 +64,12 @@ export default {
             const ownerToCreate = {
                 name: this.owner.name,
                 surname: this.owner.surname,
+				dateOfBirth: this.owner.dateOfBirth,
+				isPremiumCustomer: this.owner.isPremiumCustomer,
                 carIds: this.selectedCars ? this.selectedCars.map(c => c.id) : []
             }
             this.$store.dispatch('createOwner', ownerToCreate).then(() => {
-                this.$router.push('/')
+                this.$router.push('/owners')
             })
         }
     }
@@ -116,6 +118,6 @@ button {
     max-width: 400px;
     border: 2px solid black;
     border-radius: 4px;
-    margin-bottom: 150px;
+    margin-bottom: 50px;
 }
 </style>

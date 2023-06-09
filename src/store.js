@@ -39,11 +39,6 @@ export const store = new Vuex.Store({
         SET_AUTHORS(state, authors) {
             state.authors = authors
         },
-        TOGGLE_BODY_FORMAT(state) {
-            if (state.bodyFormat === 'XML')
-                state.bodyFormat = 'JSON'
-            else state.bodyFormat = 'XML'
-        },
         SET_CAR_BEING_UPDATED(state, carBeingUpdated) {
             state.carBeingUpdated = carBeingUpdated
         },
@@ -83,6 +78,20 @@ export const store = new Vuex.Store({
             const updatedCarsFromStore = state.cars.filter(car => ownerFromStore.carIds.includes(car.id))
             updatedCarsFromStore.forEach(car => !car.ownerIds.includes(ownerToUpdate.id) ?? car.ownerIds.push(ownerToUpdate.id))
         },
+        CREATE_INSPECTION(state, inspectionToCreate) {
+            state.inspections.push(inspectionToCreate)
+        },
+        UPDATE_INSPECTION(state, inspectionToUpdate) {
+            const inspectionFromStore = state.inspections.filter(i => i.id === inspectionToUpdate.id)[0]
+            inspectionFromStore.date = inspectionToUpdate.date
+            inspectionFromStore.mileage = inspectionToUpdate.mileage
+            inspectionFromStore.comments = inspectionToUpdate.comments
+            inspectionFromStore.isPositive = inspectionToUpdate.isPositive
+            inspectionFromStore.carId = inspectionToUpdate.carId
+        },
+        REMOVE_INSPECTION(state, inspectionIdToRemove) {
+            state.inspections = state.inspections.filter(i => i.id !== inspectionIdToRemove)
+        },
         SET_OWNER_BEING_UPDATED(state, ownerToUpdate) {
             state.ownerBeingUpdated = ownerToUpdate
         },
@@ -114,7 +123,7 @@ export const store = new Vuex.Store({
             })
                 .then(r => {
                     console.log(2)
-                    if (r.status === 200) commit('REMOVE_CAR', carId)
+                    if (r.status === 204) commit('REMOVE_CAR', carId)
                 })
         },
         removeOwner({commit, state}, ownerId) {
@@ -124,7 +133,7 @@ export const store = new Vuex.Store({
             })
                 .then(r => {
                     console.log(2)
-                    if (r.status === 200) commit('REMOVE_OWNER', ownerId)
+                    if (r.status === 204) commit('REMOVE_OWNER', ownerId)
                 })
         },
         updateCar({commit, state}, newlyUpdatedCar) {
@@ -183,6 +192,40 @@ export const store = new Vuex.Store({
                 .then(r => {
                     console.log('upd')
                     if (r.status === 200) commit('UPDATE_OWNER', newlyUpdatedOwner)
+                })
+        },
+        createInspection({commit}, inspectionToCreate) {
+            fetch(`http://${SERVER_IP}:9000/inspection`, {
+                method: 'post',
+                headers: HEADERS,
+                body: JSON.stringify(inspectionToCreate)
+            })
+                .then(async r => {
+                    if (r.status === 201) commit('CREATE_INSPECTION', await r.json())
+                })
+        },
+        updateInspection({commit}, newlyUpdatedInspection) {
+            fetch(`http://${SERVER_IP}:9000/inspection/${newlyUpdatedInspection.id}`, {
+                method: 'put',
+                headers: HEADERS,
+                body: JSON.stringify({
+                    date: newlyUpdatedInspection.date,
+                    mileage: newlyUpdatedInspection.mileage,
+                    comments: newlyUpdatedInspection.comments,
+                    isPositive: newlyUpdatedInspection.isPositive,
+                    carId: newlyUpdatedInspection.carId,
+                })
+            })
+                .then(r => {
+                    if (r.status === 200) commit('UPDATE_INSPECTION', newlyUpdatedInspection)
+                })
+        },
+        removeInspection({commit}, inspectionId) {
+            fetch(`http://${SERVER_IP}:9000/inspection/${inspectionId}`, {
+                method: 'delete'
+            })
+                .then(r => {
+                    if (r.status === 204) commit('REMOVE_INSPECTION', inspectionId)
                 })
         }
     }

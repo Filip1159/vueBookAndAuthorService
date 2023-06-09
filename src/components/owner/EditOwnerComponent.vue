@@ -29,7 +29,7 @@
         </multiselect>
         <div class="buttonsWrapper">
             <button @click="e => saveOwner(e)">Save</button>
-            <router-link :to="{ name: 'Home' }">
+            <router-link :to="{ name: 'OwnerList' }">
                 <button>Cancel</button>
             </router-link>
         </div>
@@ -56,7 +56,7 @@ export default {
         carNames() {
             return this.$store.state.cars.map(car => ({
                 id: car.id,
-                carName: `${car.model} ${car.year}`
+                carName: `${car.brand} ${car.model} (${car.year})`
             }))
         }
     },
@@ -78,10 +78,12 @@ export default {
                 id: this.ownerBeingUpdated.id,
                 name: this.ownerBeingUpdated.name,
                 surname: this.ownerBeingUpdated.surname,
+				dateOfBirth: this.ownerBeingUpdated.dateOfBirth,
+				isPremiumCustomer: this.ownerBeingUpdated.isPremiumCustomer,
                 carIds: this.selectedCars.map(c => c.id)
             }
             this.$store.dispatch('updateOwner', newlyUpdatedOwner).then(() => {
-                this.$router.push('/')
+                this.$router.push('/owners')
             })
         }
     }
@@ -130,6 +132,6 @@ button {
     max-width: 400px;
     border: 2px solid black;
     border-radius: 4px;
-    margin-bottom: 150px;
+    margin-bottom: 50px;
 }
 </style>

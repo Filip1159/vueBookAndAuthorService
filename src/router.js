@@ -8,6 +8,8 @@ import OwnerListComponent from "@/components/owner/OwnerListComponent.vue";
 import AuthorsComponent from "@/components/AuthorsComponent.vue";
 import CarListComponent from "@/components/car/CarListComponent.vue";
 import InspectionListComponent from "@/components/inspection/InspectionListComponent.vue";
+import CreateInspectionComponent from "@/components/inspection/CreateInspectionComponent.vue";
+import EditInspectionComponent from "@/components/inspection/EditInspectionComponent.vue";
 
 Vue.use(VueRouter)
 
@@ -19,6 +21,8 @@ const routes = [
     { path: '/create-car', name: 'CreateCar', component: CreateCarComponent },
     { path: '/edit-owner', name: 'EditOwner', component: EditOwnerComponent },
     { path: '/create-owner', name: 'CreateOwner', component: CreateOwnerComponent },
+    { path: '/create-inspection', name: 'CreateInspection', component: CreateInspectionComponent },
+    { path: '/edit-inspection/:id', name: 'EditInspection', component: EditInspectionComponent },
     { path: '/authors', name: 'Authors', component: AuthorsComponent }
 ]
 

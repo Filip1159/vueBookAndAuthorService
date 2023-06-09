@@ -2,14 +2,9 @@
   <div>
     <div class="heading">
       <div class="inspectionListSpan">Inspections list</div>
-      <div>
         <router-link :to="{ name: 'CreateInspection' }">
           <button class="newCarButton">+ New inspection</button>
         </router-link>
-        <router-link :to="{ name: 'CarList' }">
-          <button class="newCarButton">Car list</button>
-        </router-link>
-      </div>
     </div>
     <table class="inspectionListTable">
       <thead>
@@ -33,7 +28,7 @@
 import Inspection from "@/components/inspection/InspectionComponent.vue"
 
 export default {
-	name: 'InspectionlistComponent',
+	name: 'InspectionListComponent',
 	components: {Inspection},
 	data() {
 		return {}
@@ -48,5 +43,67 @@ export default {
 </script>
 
 <style scoped>
+.inspectionListSpan {
+	font-size: 32px;
+	font-weight: 700;
+	align-self: flex-start;
+	margin: 20px 40px;
+}
 
+.inspectionListTable {
+	margin: 30px auto;
+	min-width: 70%;
+}
+
+thead {
+	background-color: #42b983;
+	font-size: 18px;
+	border: 2px solid #42b983;
+}
+
+th {
+	padding: 6px 25px;
+}
+
+.dateTh {
+	width: 120px;
+}
+
+.mileageTh {
+	width: 80px;
+}
+
+.commentsTh {
+	width: 250px;
+}
+
+.isPositiveTh {
+	width: 130px;
+}
+
+.carTh {
+	width: 200px;
+}
+
+.actionTh {
+	width: 100px;
+}
+
+.newCarButton {
+	padding: 5px 15px;
+	width: 180px;
+}
+
+.heading {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+a {
+	margin: auto 40px;
+	display: block !important;
+	text-decoration: none !important;
+	color: black !important;
+}
 </style>

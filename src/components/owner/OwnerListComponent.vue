@@ -2,14 +2,9 @@
     <div>
         <div class="heading">
             <div class="ownerListSpan">Owner list</div>
-            <div>
-                <router-link :to="{ name: 'CreateOwner' }">
-                    <button class="newOwnerButton">+ New Owner</button>
-                </router-link>
-                <router-link :to="{ name: 'Home' }">
-                    <button class="newOwnerButton">Go back home</button>
-                </router-link>
-            </div>
+			<router-link :to="{ name: 'CreateOwner' }">
+				<button class="newOwnerButton">+ New Owner</button>
+			</router-link>
         </div>
         <table class="ownerListTable">
             <thead>
@@ -37,9 +32,14 @@ export default {
     components: {Owner},
     data() {
         return {
-            ownerList: this.$store.state.owners
         }
-    }
+    },
+
+	computed: {
+		ownerList() {
+			return this.$store.state.owners
+		}
+	}
 }
 </script>
 
@@ -49,12 +49,11 @@ export default {
     font-size: 32px;
     font-weight: 700;
     align-self: flex-start;
-    margin: 20px 0 40px 100px;
+	margin: 20px 40px;
 }
 
 .ownerListTable {
     margin: 30px auto;
-    min-width: 70%;
 }
 
 thead {
@@ -68,23 +67,23 @@ th {
 }
 
 .nameTh {
-    width: 20%;
+    width: 130px;
 }
 
 .surnameTh {
-    width: 20%;
+    width: 130px;
 }
 
 .dateOfBirthTh {
-  width: 20%;
+  width: 200px;
 }
 
 .premiumTh {
-  width: 10%;
+  width: 60px;
 }
 
 .carsTh {
-    width: 30%;
+    width: 300px;
 }
 
 .actionTh {
@@ -108,30 +107,4 @@ a {
     text-decoration: none !important;
     color: black !important;
 }
-
-.navigation {
-    position: absolute;
-    bottom: 100px;
-    left: 40%;
-    right: 40%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.pageSpan {
-    font-size: 20px;
-    font-weight: 700;
-    margin: 0 20px;
-}
-
-.navigationButton {
-    opacity: 0.3;
-}
-
-.navigationButton.active {
-    opacity: 1;
-}
-
-
 </style>

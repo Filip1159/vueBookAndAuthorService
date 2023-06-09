@@ -29,7 +29,7 @@
         </multiselect>
         <div class="buttonsWrapper">
             <button @click="e => saveCar(e)">Save</button>
-            <router-link :to="{ name: 'Home' }">
+            <router-link :to="{ name: 'CarListComponent' }">
                 <button>Cancel</button>
             </router-link>
         </div>
@@ -74,8 +74,10 @@ export default {
             e.preventDefault()
             const newlyUpdatedCar = {
                 id: this.carBeingUpdated.id,
+				brand: this.carBeingUpdated.brand,
                 model: this.carBeingUpdated.model,
                 year: this.carBeingUpdated.year,
+				firstRegistration: this.carBeingUpdated.firstRegistration,
                 ownerIds: this.selectedOwners.map(o => o.id)
             }
             this.$store.dispatch('updateCar', newlyUpdatedCar).then(() => {
