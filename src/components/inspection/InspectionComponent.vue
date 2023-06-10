@@ -54,7 +54,6 @@ td {
 }
 
 .comments {
-	text-align: end;
 }
 
 .isPositive {

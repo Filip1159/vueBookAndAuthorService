@@ -44,6 +44,7 @@ export const store = new Vuex.Store({
         },
         REMOVE_CAR(state, carIdToRemove) {
             state.cars = state.cars.filter(car => car.id !== carIdToRemove)
+            state.inspections = state.inspections.filter(i => i.carId !== carIdToRemove)
             state.owners.forEach(owner => owner.carIds.filter(carId => carId !== carIdToRemove))
         },
         UPDATE_CAR(state, carToUpdate) {
